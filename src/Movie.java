@@ -20,7 +20,7 @@ public class Movie {
         return this.title;
     }
 
-    public int
+    public int;
 
 
 }
