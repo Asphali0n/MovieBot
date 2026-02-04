@@ -8,19 +8,16 @@ public class Main {
         Scanner sc = new Scanner(System.in); // Scanner for inputs
 
         // List of movies
-        final String movie1 = "Avatar";
-        float price_movie1 = 10;
-        final String movie2 = "Titanic";
-        float price_movie2 = 13;
-        final String movie3 = "Tenet";
-        float price_movie3 = 8;
+        Movie movie1 = new Movie("Avatar", 10, null, 0);
+        Movie movie2 = new Movie("Titanic", 13, null, 0);
+        Movie movie3 = new Movie("Tenet", 8, null, 0);
 
         // Get user's name
         System.out.printf(
                 "Bonjour, bienvenue dans notre cinéma ! \nJe suis GUHHH, votre assistant de réservation. \nS'il-vous-plaît, indiquez-moi votre nom : ");
         String username = sc.nextLine();
         System.out.printf("\nBienvenue %s !\nChoisissez une option pour commencer : ", username);
-        
+
         boolean quit = false;
 
         while (quit == false) {
@@ -38,7 +35,7 @@ public class Main {
                 choice = sc.nextInt();
 
                 sc.nextLine(); // Clear the scanner's memory
-                
+
                 if (choice == 0 || choice == 1 || choice == 2) {
                     valid_choice = true;
                 } else {
@@ -64,9 +61,9 @@ public class Main {
                     System.out.println("|");
                     System.out.println("| Liste des films disponibles :");
                     System.out.println("|");
-                    System.out.printf("| %s (%.2f €)\n", movie1, price_movie1);
-                    System.out.printf("| %s (%.2f €)\n", movie2, price_movie2);
-                    System.out.printf("| %s (%.2f €)\n", movie3, price_movie3);
+                    System.out.printf("| %s (%.2f €)\n", movie1, movie1.getPrice());
+                    System.out.printf("| %s (%.2f €)\n", movie2, movie2.getPrice());
+                    System.out.printf("| %s (%.2f €)\n", movie3, movie3.getPrice());
                     System.out.println("--------------------------------------------------| \n");
                     while (choice != 0 && choice != 1) {
                         System.out.printf("Veuillez choisir (0 ou 1) : ");
@@ -77,17 +74,17 @@ public class Main {
                         quit = true;
                         break;
                     }
-                
-                // Menu to book a movie
+
+                    // Menu to book a movie
                 case 1:
 
                     String chosen_movie = "to_fill";
-                    while (!chosen_movie.equals(movie1) && !chosen_movie.equals(movie2) && !chosen_movie.equals(movie3)) {
+                    while (!chosen_movie.equals(movie1) && !chosen_movie.equals(movie2)
+                            && !chosen_movie.equals(movie3)) {
                         System.out.printf("Choisissez votre film entre %s, %s et %s : ", movie1, movie2, movie3);
                         chosen_movie = sc.nextLine();
                     }
 
-                    
                     int nb_places = -1; // Random value
                     while (nb_places > 10 || nb_places < 0) {
                         System.out.printf("\nVeuillez choisir un nombre de places entre 1 et 10 : ");
@@ -103,58 +100,46 @@ public class Main {
 
                     // Calculate total price
                     float total_price = 0;
-                    switch (chosen_movie) {
-                        case movie1:
-                            if (!tarif.equals("normal"))
-                                total_price = (price_movie1 * nb_places);
-                            else
-                                total_price = (price_movie1 * nb_places) / 2;
-                            break;
-                        
-                        case movie2:
-                            if (!tarif.equals("normal"))
-                                total_price = (price_movie2 * nb_places);
-                            else
-                                total_price = (price_movie2 * nb_places) / 2;
-                            break;
-                        
 
-                        case movie3:
-                            if (!tarif.equals("normal"))
-                                total_price = (price_movie3 * nb_places);
-                            else
-                                total_price = (price_movie3 * nb_places) / 2;
-                            break;
-
+                    if (chosen_movie.equals(movie1.getTitle())) {
+                        if (!tarif.equals("normal")) {
+                            total_price = (movie1.getPrice() * nb_places);
+                        } else {
+                            total_price = (movie1.getPrice() * nb_places) / 2;
+                        }
+                    } else if (chosen_movie.equals(movie2.getTitle())) {
+                        if (!tarif.equals("normal")) {
+                            total_price = (movie2.getPrice() * nb_places);
+                        } else {
+                            total_price = (movie2.getPrice() * nb_places) / 2;
+                        }
+                    } else if (chosen_movie.equals(movie3.getTitle())) {
+                        if (!tarif.equals("normal")) {
+                            total_price = (movie3.getPrice() * nb_places);
+                        } else {
+                            total_price = (movie3.getPrice() * nb_places) / 2;
+                        }
                     }
                     System.out.printf("\nLe prix total de votre séance sera de %.2f € \n\n\n", total_price);
-
 
                     System.out.println("|-----------------------------|");
                     System.out.println("| (0) Quitter | (1) Continuer |");
                     System.out.println("|-----------------------------|\n\n");
-                    
+
                     choice = -1; // Random value
                     while (choice != 0 && choice != 1) {
                         System.out.printf("Choisissez entre quitter (0) et recommencer (1) : ");
                         choice = sc.nextInt();
-                    if (choice == 0) {
-                        quit = true;
-                        break;
+                        if (choice == 0) {
+                            quit = true;
+                            break;
+                        }
                     }
-                    }
 
-                    
-
-
-
-
-
+            }
 
         }
 
-        }
-        
         sc.close();
     }
 }
