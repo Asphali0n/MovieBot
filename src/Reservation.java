@@ -45,4 +45,9 @@ public class Reservation {
     public void setTotal_price(double new_price) {
         this.total_price = new_price;
     }
+
+    // Methods
+    public void Afficher() {
+
+    }
 }
