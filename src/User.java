@@ -3,29 +3,28 @@ public class User {
     private String name;
     private int age;
 
-    public User(String name, int age){
+    public User(String name, int age) {
         this.name = name;
         this.age = age;
     }
 
     // Getters
 
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
-    public int getAge(){
+    public int getAge() {
         return this.age;
     }
 
-
     // Setters
 
-    public void getName(String new_name){
+    public void setName(String new_name) {
         this.name = new_name;
     }
 
-    public void getAge(int new_age){
+    public void setAge(int new_age) {
         this.age = new_age;
     }
 }

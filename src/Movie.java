@@ -1,46 +1,59 @@
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Movie {
 
     // Attributs
     private String title;
-    private int price;
-    private HashMap<String,Integer> seances;
+    private double price;
+    private ArrayList<String> seances;
+    private int places;
 
-    // Constructeurs
-    public Movie(String title, int price, HashMap<String,Integer> seances, int nb_places) {
+    // Constructors
+    public Movie(String title, double price, int places) {
         this.title = title;
         this.price = price;
-        this.seances = seances;
+        this.places = places;
+        this.seances = new ArrayList<>();
+    }
+
+    // Methodes
+
+    public void addSeance(String time) {
+        this.seances.add(time);
+    }
+
+    public void removePlaces(int nombre) {
+        if (this.places >= nombre) {
+            this.places -= nombre;
+        }
     }
 
     // Getters
 
-    public String getTitle(){
+    public String getTitle() {
         return this.title;
     }
 
-    public int getPrice(){
+    public double getPrice() {
         return this.price;
     }
 
-    public HashMap<String,Integer> getSeances(){
-        return this.seances;
+    public ArrayList<String> getSeances() {
+        return seances;
     }
 
+    public int getPlaces() {
+        return places;
+    }
 
     // Setters
 
-    public void setTitle(String new_title){
+    public void setTitle(String new_title) {
         this.title = new_title;
     }
 
-    public void setPrice(int new_price){
+    public void setPrice(int new_price) {
         this.price = new_price;
-    }
-
-    public void setSeances(HashMap<String,Integer> new_seances){
-        this.seances = new_seances;
     }
 
 }

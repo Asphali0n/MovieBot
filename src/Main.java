@@ -8,138 +8,163 @@ public class Main {
         Scanner sc = new Scanner(System.in); // Scanner for inputs
 
         // List of movies
-        Movie movie1 = new Movie("Avatar", 10, null, 0);
-        Movie movie2 = new Movie("Titanic", 13, null, 0);
-        Movie movie3 = new Movie("Tenet", 8, null, 0);
+        ArrayList<Movie> liste_films = new ArrayList<>();
+
+        Movie m1 = new Movie("Avatar 2", 12.50, 50);
+        m1.addSeance("14:00");
+        m1.addSeance("18:00");
+        m1.addSeance("21:00");
+        liste_films.add(m1);
+
+        Movie m2 = new Movie("Titanic", 10.00, 100);
+        m2.addSeance("10:00");
+        m2.addSeance("15:30");
+        liste_films.add(m2);
+
+        Movie m3 = new Movie("Tenet", 8.50, 70);
+        m3.addSeance("20:00");
+        m3.addSeance("22:30");
+        liste_films.add(m3);
+
+        Movie m4 = new Movie("Inception", 9.00, 60);
+        m4.addSeance("14:00");
+        m4.addSeance("17:00");
+        liste_films.add(m4);
+
+        Movie m5 = new Movie("Interstellar", 11.00, 85);
+        m5.addSeance("16:00");
+        m5.addSeance("20:00");
+        liste_films.add(m5);
+
+        // Reservations
+        GestionReservations listeReservations = new GestionReservations();
 
         // Get user's name
         System.out.printf(
-                "Bonjour, bienvenue dans notre cinéma ! \nJe suis GUHHH, votre assistant de réservation. \nS'il-vous-plaît, indiquez-moi votre nom : ");
+                "Bonjour, bienvenue dans notre cinéma ! \nJe suis MovieBot, votre assistant de réservation. \nS'il-vous-plaît, indiquez-moi votre nom : ");
         String username = sc.nextLine();
+        User currentUser = new User(username, 0);
         System.out.printf("\nBienvenue %s !\nChoisissez une option pour commencer : ", username);
 
         boolean quit = false;
 
         while (quit == false) {
             // Print menu
-            System.out.println("\n\n");
-            System.out.println("|--------------------------------------------------------------|");
-            System.out.println("| (0) Quitter | (1) Faire une réservation | (2) Voir les Films |");
-            System.out.println("|--------------------------------------------------------------|");
-            System.out.println("\n\n");
+            System.out.println("\n|---------------- MENU ----------------|");
+            System.out.println("| (0) Quitter                          |");
+            System.out.println("| (1) Voir les Films                   |");
+            System.out.println("| (2) Faire une réservation            |");
+            System.out.println("| (3) Voir mes réservations            |");
+            System.out.println("|--------------------------------------|\n");
 
-            int choice = 0; // Random initial value
-            boolean valid_choice = false;
-            while (valid_choice == false) {
-                System.out.printf("Faites votre choix : ");
-                choice = sc.nextInt();
-
-                sc.nextLine(); // Clear the scanner's memory
-
-                if (choice == 0 || choice == 1 || choice == 2) {
-                    valid_choice = true;
-                } else {
-                    System.out.printf("Choix incorrect. ");
-                }
-            }
+            int choice = sc.nextInt();
+            sc.nextLine();
 
             System.out.println("\n\n");
 
             switch (choice) {
 
-                // User want to leave
+                // User wants to leave
                 case 0:
                     System.out.printf("Au revoir %s ! Ce fut un plaisir !", username);
                     quit = true;
                     break;
 
                 // Menu to see available movies
-                case 2:
-                    System.out.println("         |----------------------------------------|");
-                    System.out.println("---------|(0) Quitter | (1) Faire une réservation |");
-                    System.out.println("|        |----------------------------------------|");
-                    System.out.println("|");
-                    System.out.println("| Liste des films disponibles :");
-                    System.out.println("|");
-                    System.out.printf("| %s (%.2f €)\n", movie1, movie1.getPrice());
-                    System.out.printf("| %s (%.2f €)\n", movie2, movie2.getPrice());
-                    System.out.printf("| %s (%.2f €)\n", movie3, movie3.getPrice());
-                    System.out.println("--------------------------------------------------| \n");
-                    while (choice != 0 && choice != 1) {
-                        System.out.printf("Veuillez choisir (0 ou 1) : ");
-                        choice = sc.nextInt();
-                        sc.nextLine(); // Clear the scanner's memory
-                    }
-                    if (choice == 0) {
-                        quit = true;
-                        break;
-                    }
-
-                    // Menu to book a movie
                 case 1:
+                    System.out.println("\n------- Films disponibles -------");
+                    for (Movie m : liste_films) {
+                        System.out.printf("   Titre : %s (%.2f €)\n", m.getTitle(), m.getPrice());
+                        System.out.println("   Places restantes : " + m.getPlaces());
+                        System.out.println("   Séances : " + m.getSeances());
+                        System.out.println("---------------------------------");
+                    }
+                    break;
 
-                    String chosen_movie = "to_fill";
-                    while (!chosen_movie.equals(movie1) && !chosen_movie.equals(movie2)
-                            && !chosen_movie.equals(movie3)) {
-                        System.out.printf("Choisissez votre film entre %s, %s et %s : ", movie1, movie2, movie3);
-                        chosen_movie = sc.nextLine();
+                // Menu to book a movie
+                case 2:
+                    Movie chosen_movie = null;
+
+                    // Search for movie
+                    while (chosen_movie == null) {
+                        System.out.print("Choisissez votre film : ");
+                        String recherche = sc.nextLine().toLowerCase();
+                        for (Movie m : liste_films) {
+                            if (m.getTitle().toLowerCase().contains(recherche)) {
+                                chosen_movie = m;
+                                break;
+                            } else {
+                                System.out.println("Film Introuvable.");
+                            }
+                        }
                     }
 
-                    int nb_places = -1; // Random value
-                    while (nb_places > 10 || nb_places < 0) {
-                        System.out.printf("\nVeuillez choisir un nombre de places entre 1 et 10 : ");
-                        nb_places = sc.nextInt();
+                    if (chosen_movie != null) {
+                        System.out.println("Film choisi : " + chosen_movie.getTitle());
 
-                        sc.nextLine(); // Clear the scanner's memory
-                    }
-                    String tarif = "to_fill";
-                    while (!tarif.equals("normal") && !tarif.equals("réduit")) {
-                        System.out.printf("Veuillez choisir un tarif entre 'normal' et 'réduit' (moitié-prix) : ");
-                        tarif = sc.nextLine();
-                    }
+                        // Choose seance
+                        System.out.println("Séances disponibles :");
+                        ArrayList<String> h = chosen_movie.getSeances();
+                        for (int i = 0; i < h.size(); i++) {
+                            System.out.printf("séance %d : %s\n", i, h.get(i));
+                        }
 
-                    // Calculate total price
-                    float total_price = 0;
+                        int chosen_seance = -1;
+                        while (chosen_seance < 0 || chosen_seance >= h.size()) {
+                            System.out.print("Choisissez le numéro de la séance : ");
+                            chosen_seance = sc.nextInt();
+                        }
+                        sc.nextLine();
 
-                    if (chosen_movie.equals(movie1.getTitle())) {
-                        if (!tarif.equals("normal")) {
-                            total_price = (movie1.getPrice() * nb_places);
+                        String horaire = h.get(chosen_seance);
+
+                        // Choose tarif
+                        String tarif = "";
+                        while (!tarif.equals("normal") && !tarif.equals("reduit")) {
+                            System.out.print("Tarif 'normal' ou 'reduit' ? ");
+                            tarif = sc.nextLine().toLowerCase();
+                        }
+                        double price = chosen_movie.getPrice();
+                        if (tarif.equals("reduit")) {
+                            price = price / 2;
+                        }
+
+                        // Choose place number
+                        System.out.print("Combien de places ? ");
+                        int nbPlaces = sc.nextInt();
+                        sc.nextLine();
+
+                        // Check if enough places left
+                        if (nbPlaces <= chosen_movie.getPlaces()) {
+                            double total = price * nbPlaces;
+
+                            // Create reservation
+                            Reservation res = new Reservation(currentUser, chosen_movie, horaire, total);
+                            listeReservations.addReservation(res);
+
+                            // Update places on the movie
+                            chosen_movie.removePlaces(nbPlaces);
+
+                            System.out.printf("Prix total : %.2f €\n", total);
                         } else {
-                            total_price = (movie1.getPrice() * nb_places) / 2;
+                            System.out.printf("Pas assez de places disponibles, il n'en reste que %d\n",
+                                    chosen_movie.getPlaces());
                         }
-                    } else if (chosen_movie.equals(movie2.getTitle())) {
-                        if (!tarif.equals("normal")) {
-                            total_price = (movie2.getPrice() * nb_places);
-                        } else {
-                            total_price = (movie2.getPrice() * nb_places) / 2;
-                        }
-                    } else if (chosen_movie.equals(movie3.getTitle())) {
-                        if (!tarif.equals("normal")) {
-                            total_price = (movie3.getPrice() * nb_places);
-                        } else {
-                            total_price = (movie3.getPrice() * nb_places) / 2;
-                        }
+
                     }
-                    System.out.printf("\nLe prix total de votre séance sera de %.2f € \n\n\n", total_price);
+                    break;
 
-                    System.out.println("|-----------------------------|");
-                    System.out.println("| (0) Quitter | (1) Continuer |");
-                    System.out.println("|-----------------------------|\n\n");
+                // Print reservations
+                case 3:
+                    listeReservations.afficherReservations();
+                    break;
 
-                    choice = -1; // Random value
-                    while (choice != 0 && choice != 1) {
-                        System.out.printf("Choisissez entre quitter (0) et recommencer (1) : ");
-                        choice = sc.nextInt();
-                        if (choice == 0) {
-                            quit = true;
-                            break;
-                        }
-                    }
-
+                default:
+                    System.out.println("Choix incorrect.");
             }
 
         }
-
         sc.close();
     }
+
 }
