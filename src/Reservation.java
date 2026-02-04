@@ -48,6 +48,11 @@ public class Reservation {
 
     // Methods
     public void Afficher() {
-
+        System.out.println("|------------- Réservation -------------|");
+        System.out.printf("|Utilisateur : %-8.2s\n", this.user.getName());
+        System.out.printf("|Film : %-8.2s\n", this.movie.getTitle());
+        System.out.printf("|Seance : %-8.2d\n", this.seance);
+        System.out.printf("|Prix : %-8.2f\n", this.total_price);
+        System.out.printf("|----------------------------------------|");
     }
 }
