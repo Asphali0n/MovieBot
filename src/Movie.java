@@ -1,10 +1,11 @@
+import java.util.HashMap;
+
 public class Movie {
 
     // Attributs
     private String title;
     private int price;
-    private String[] seances;
-    private int nb_places;
+    private HashMap<String,Integer> seances;
 
     // Constructeurs
     public Movie(String title, int price, String[] seances, int nb_places) {
@@ -20,7 +21,23 @@ public class Movie {
         return this.title;
     }
 
-    public int;
+    public int getPrice(){
+        return this.price;
+    }
 
+    public String[] getSeances(){
+        return this.seances;
+    }
+
+    public int nb_places getNb_places(){
+        return this.nb_places;
+    }
+
+
+    // Setters
+
+    public void setTitle(String new_title){
+        this.title = new_title;
+    }
 
 }
